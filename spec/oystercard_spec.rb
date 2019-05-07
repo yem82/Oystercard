@@ -23,4 +23,10 @@ before(:each) { @card = Oystercard.new }
     end
   end
 
+  describe "#deduct" do
+    it "deducts a specified amount" do
+      @card.top_up(10)
+      expect{ @card.deduct 2 }.to change{ @card.balance }.by (-2)
+    end
+  end
 end
