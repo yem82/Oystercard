@@ -26,7 +26,25 @@ before(:each) { @card = Oystercard.new }
   describe "#deduct" do
     it "deducts a specified amount" do
       @card.top_up(10)
-      expect{ @card.deduct 2 }.to change{ @card.balance }.by (-2)
+      expect{ @card.deduct 2 }.to change{ @card.balance }.by(-2)
+    end
+  end
+
+  describe "#touch_in" do
+    it "touch in with an oystercard" do
+      expect(@card).to respond_to(:touch_in)
+    end
+  end
+
+  describe "#touch_out" do
+    it "touch out with an oystercard" do
+      expect(@card).to respond_to(:touch_out)
+    end
+  end
+
+  describe "#in_journey?" do
+    it "check if a card is in a journey" do
+      expect(@card).not_to be_in_journey
     end
   end
 end
