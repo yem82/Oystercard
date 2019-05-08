@@ -117,3 +117,22 @@ GREEN
 2.6.0 :007 > card.touch_in
  => nil
 2.6.0 :008 > card.touch_in
+
+2.6.0 :001 > require './lib/oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fedfc955be0 @balance=0, @in_use=false>
+2.6.0 :003 > card.touch_in
+ => true
+2.6.0 :004 > card.touch_in
+ => true
+2.6.0 :005 > card.in_journey?
+ => true
+2.6.0 :006 > card.touch_out
+ => false
+2.6.0 :007 > card.in_journey?
+=> false
+2.6.0 :008 > card2 = Oystercard.new
+ => #<Oystercard:0x00007fedfc97edb0 @balance=0, @in_use=false>
+2.6.0 :009 > card2.in_journey?
+ => false

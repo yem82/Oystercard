@@ -34,11 +34,22 @@ before(:each) { @card = Oystercard.new }
     it "touch in with an oystercard" do
       expect(@card).to respond_to(:touch_in)
     end
+
+    it "when touched in to be #in_journey?" do
+      @card.touch_in
+      expect(@card).to be_in_journey
+    end
   end
 
   describe "#touch_out" do
     it "touch out with an oystercard" do
       expect(@card).to respond_to(:touch_out)
+    end
+
+    it "when touched out to not be #in_journey" do
+      @card.touch_in
+      @card.touch_out
+      expect(@card).not_to be_in_journey
     end
   end
 
@@ -47,4 +58,6 @@ before(:each) { @card = Oystercard.new }
       expect(@card).not_to be_in_journey
     end
   end
+
+
 end
