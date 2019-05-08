@@ -2,7 +2,12 @@ require 'oystercard'
 
 describe Oystercard do
 # --> create method for top_up
+class Oystercard
+  public :deduct
+end
+
 before(:each) { @card = Oystercard.new }
+
   describe "initialization" do
 
     it "defaults to a balance of 0" do
