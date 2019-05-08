@@ -1,6 +1,7 @@
 require 'oystercard'
-describe Oystercard do
 
+describe Oystercard do
+# --> create method for top_up
 before(:each) { @card = Oystercard.new }
   describe "initialization" do
 
@@ -46,6 +47,14 @@ before(:each) { @card = Oystercard.new }
   describe "#touch_out" do
     it "touch out with an oystercard" do
       expect(@card).to respond_to(:touch_out)
+    end
+
+    it "deducts fare amount from oystercard" do
+      @card.top_up(10)
+      @card.touch_in
+      @card.deduct(Oystercard::MIN_FARE)
+      # expect(@card.touch_out).to eq(5)
+      expect { @card.touch_out}.to change{@card.balance}.by(-Oystercard::MIN_FARE)
     end
 
     it "when touched out to not be #in_journey" do

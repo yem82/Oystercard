@@ -138,7 +138,7 @@ GREEN
  => false
 
 
-Chapter 9 User Story
+Chapter 8 User Story
 
 In order to pay for my journey
 As a customer
@@ -167,3 +167,33 @@ Traceback (most recent call last):
         2: from (irb):4
         1: from /Users/yems/Projects/oystercard_challenge/lib/oystercard.rb:27:in `touch_in'
 RuntimeError (Insufficient funds)
+
+Chapter 10 User Story
+
+In order to pay for my journey
+As a customer
+When my journey is complete, I need the correct amount deducted from my card
+
+
+GREEN
+
+2.6.0 :001 > require './lib/oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007f84b7174678 @balance=0, @in_use=false>
+2.6.0 :003 > card.in_journey?
+=> false
+2.6.0 :004 > card.top_up(10)
+=> 10
+2.6.0 :005 > card.in_journey?
+=> false
+2.6.0 :006 > card.touch_in
+=> true
+2.6.0 :007 > card.balance
+=> 10
+2.6.0 :008 > card.in_journey?
+=> true
+2.6.0 :009 > card.touch_out
+=> false
+2.6.0 :010 > card.balance
+=> 9

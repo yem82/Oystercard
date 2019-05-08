@@ -2,7 +2,8 @@ class Oystercard
   attr_accessor :in_use
   attr_reader :balance, :min_amount
   MAX_BALANCE = 90
-  # IN_JOURNEY = false
+  MIN_FARE = 1
+
   def initialize
     @balance = 0
     @in_use = false
@@ -30,7 +31,9 @@ class Oystercard
   end
 
   def touch_out
+   deduct(MIN_FARE)
    @in_use = false
+
   end
 
   def in_journey?
