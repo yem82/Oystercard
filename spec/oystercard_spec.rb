@@ -31,13 +31,15 @@ before(:each) { @card = Oystercard.new }
   end
 
   describe "#touch_in" do
-    it "touch in with an oystercard" do
-      expect(@card).to respond_to(:touch_in)
-    end
-
     it "when touched in to be #in_journey?" do
+      @card.top_up(10)
       @card.touch_in
       expect(@card).to be_in_journey
+    end
+
+    it "can start journey with at least minimum balance" do
+      @card.top_up(0.5)
+      expect{ @card.touch_in }.to raise_error "Insufficient funds"
     end
   end
 
@@ -47,6 +49,7 @@ before(:each) { @card = Oystercard.new }
     end
 
     it "when touched out to not be #in_journey" do
+      @card.top_up(10)
       @card.touch_in
       @card.touch_out
       expect(@card).not_to be_in_journey

@@ -136,3 +136,34 @@ GREEN
  => #<Oystercard:0x00007fedfc97edb0 @balance=0, @in_use=false>
 2.6.0 :009 > card2.in_journey?
  => false
+
+
+Chapter 9 User Story
+
+In order to pay for my journey
+As a customer
+I need to have the minimum amount (£1) for a single journey.
+
+Object  |  message
+
+card    | minimum_amount --> £1
+
+
+
+
+Green
+
+2.6.0 :001 > require './lib/oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007f83c70d4920 @balance=0, @in_use=false>
+2.6.0 :003 > card.top_up(0.5)
+ => 0.5
+2.6.0 :004 > card.touch_in
+Traceback (most recent call last):
+        5: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        2: from (irb):4
+        1: from /Users/yems/Projects/oystercard_challenge/lib/oystercard.rb:27:in `touch_in'
+RuntimeError (Insufficient funds)
