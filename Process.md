@@ -292,193 +292,23 @@ Traceback (most recent call last):
        1: from (irb):6
 NoMethodError (undefined method `history' for #<Oystercard:0x00007fc97d8e5be0>)
 
-
-
-
-
-oystercard.rb
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-19
-20
-21
-22
-23
-24
-55
-56
-57
-58
-49
-50
-51
-52
-53
-54
-43
-44
-45
-46
-47
-48
-    @balance < 1
-  end
-
-  def touch_in(station)
-    fail "Insufficient funds" if insufficient_funds?
-    @entry_station = station
-    @exit_station = nil
-    @journeys.merge!("entry_station": station)
-  end
-
-  def touch_out(exit_station)
-   deduct(MIN_FARE)
-   @entry_station = nil
-   @exit_station = exit_station
-   @journeys.merge!("exit_station": exit_station)
-  end
-
-  def history
-    raise message if amount + balance > MAX_BALANCE
-
-    @balance += amount
-  end
-
-  def insufficient_funds?
-
-
-end
-
-
-  private
-
-  def deduct(amount)
-    @balance -= amount
-  end
-    @journey_history << @journeys
-  end
-
-  def in_journey?
-    @entry_station != nil
-  end
-
-oystercard.rb
-oystercard_spec.rb
-README.md
-73
-74
-75
-76
-77
-78
-37
-38
-39
-40
-41
-42
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-49
-50
-51
-52
-53
-54
-43
-44
-45
-46
-47
-48
-55
-56
-57
-58
-59
-60
-      expect { card.touch_out(:exit_station) }.to change{card.balance}.by(-Oystercard::MIN_FARE)
-    end
-
-    it "when touched out to not be #in_journey" do
-      card.touch_out(:exit_station)
-      expect(card).not_to be_in_journey
-
-  describe "#deduct" do
-    it "deducts a specified amount" do
-      card.top_up(10)
-      expect{ card.deduct 2 }.to change{ card.balance }.by(-2)
-    end
-      card.touch_in(station)
-      expect(card.entry_station).to eq station
-    end
-  end
-
-  describe "#touch_out" do
-    it "touch out with an oystercard" do
-      expect(card).to respond_to(:touch_out)
-    end
-
-    it "deducts fare amount from oystercard" do
-      card.deduct(Oystercard::MIN_FARE)
-      expect(card).to be_in_journey
-    end
-
-    it "can start journey with at least minimum balance" do
-      card.top_up(0.5)
-      expect{ card.touch_in(station) }.to raise_error "Insufficient funds"
-  end
-
-  describe "#touch_in" do
-    it "when touched in to be #in_journey?" do
-      card.top_up(10)
-      card.touch_in(station)
-    end
-  end
-
-  describe "#entry_station" do
-    it "commits #entry_station to memory" do
-      card.top_up(10)
-
 Green Feature test
 
 2.6.0 :001 > require './oystercard'
  => true
 2.6.0 :002 > card = Oystercard.new
- => #<Oystercard:0x00007fc7bd941d58 @balance=0, @in_use=false, @entry_station=nil, @exit_station=nil, @journeys={}, @journey_history=[]>
-2.6.0 :003 > card.top_up(10)
+ => #<Oystercard:0x00007ff10e1ee310 @balance=0, @journeys={}>
+2.6.0 :003 > card.history
+ => [{}]
+2.6.0 :004 > card.top_up(10)
  => 10
-2.6.0 :004 > card.touch_in("Aldgate")
- => {:entry_station=>"Aldgate"}
-2.6.0 :005 > card.touch_out("Moorgate")
- => {:entry_station=>"Aldgate", :exit_station=>"Moorgate"}
-2.6.0 :006 > card.in_journey?
- => false
-2.6.0 :007 > card.history
- => [{:entry_station=>"Aldgate", :exit_station=>"Moorgate"}]
+2.6.0 :005 > card.touch_in("Aldgate")
+ => "Aldgate"
+2.6.0 :006 > card.history
+ => [[{}]]
+2.6.0 :007 > card.touch_out("Moorgate")
+=> "Moorgate"
+2.6.0 :008 > card.history
+=> [{:entry_station=>"Aldgate", :exit_station=>"Moorgate"}]
+2.6.0 :009 > card.in_journey?
+=> false
