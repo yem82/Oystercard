@@ -1,0 +1,484 @@
+Feature tests for setting up a new Oystercard.
+
+New oystercard
+ 2.6.0 :001 > require './lib/oystercard'
+  => true
+ 2.6.0 :002 > card = Oystercard.new
+  => <Oystercard:0x00007fdeb58b05b0 @balance=0>
+
+Card has a default balance of 0
+ 2.6.0 :001 > require './lib/oystercard'
+  => true
+ 2.6.0 :002 > card = Oystercard.new
+  => <Oystercard:0x00007fefc6072ed0 @balance=0>
+ 2.6.0 :003 > card.balance
+  => 0
+
+
+Provide maximum balance
+ 2.6.0 :001 > require './lib/oystercard'
+  => true
+ 2.6.0 :002 > card = Oystercard.new
+  => <Oystercard:0x00007fdeb58b05b0 @balance=0>
+ 2.6.0 :003 > card.top_up(90)
+  => 90
+ 2.6.0 :004 > card.top_up(1)
+ Traceback (most recent call last):
+         5: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+         4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+         3: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+         2: from (irb):4
+         1: from /Users/yems/Projects/oystercard_challenge/lib/oystercard.rb:11:in `top_up'
+ RuntimeError (Card violation: cannot exceed £90)
+
+
+Feature test for #deduct
+ 2.6.0 :001 > require './lib/oystercard'
+  => true
+ 2.6.0 :002 > card = Oystercard.new
+  => <Oystercard:0x00007fd9b18fafd8 @balance=0>
+ 2.6.0 :003 > card.top_up(10)
+  => 10
+ 2.6.0 :004 > card.balance
+  => 10
+ 2.6.0 :005 > card.deduct(2)
+  => 8
+
+
+To use for feature testing:
+irb
+require './lib/oystercard'
+card = Oystercard.new
+card.top_up(10)
+card.balance
+card.deduct(2)
+
+
+User Story Chapter 8
+
+In order to get through the barriers.
+As a customer
+I need to touch in and out.
+
+Object | Message
+
+card   | touch_in
+       | touch_out
+       | in_journey?
+
+
+RED
+
+
+
+2.6.0 :001 > require './lib/oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007ff73d1b22b8 @balance=0>
+2.6.0 :003 > card.touch_in
+Traceback (most recent call last):
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        2: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        1: from (irb):3
+NoMethodError (undefined method `touch_in' for #<Oystercard:0x00007ff73d1b22b8 @balance=0>)
+2.6.0 :004 > card.touch_out
+Traceback (most recent call last):
+        5: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        2: from (irb):4
+        1: from (irb):4:in `rescue in irb_binding'
+NoMethodError (undefined method `touch_out' for #<Oystercard:0x00007ff73d1b22b8 @balance=0>)
+
+GREEN
+
+002 > card = Oystercard.new
+ => #<Oystercard:0x00007fd81698bf70 @balance=0>
+2.6.0 :003 > card.top_up(10)
+ => 10
+2.6.0 :004 > card.touch_in
+ => nil
+2.6.0 :005 > card.touch_out
+ => nil
+2.6.0 :006 > card.in_journey?
+ => false
+2.6.0 :007 > card.touch_in
+ => nil
+2.6.0 :008 > card.touch_in
+
+2.6.0 :001 > require './lib/oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fedfc955be0 @balance=0, @in_use=false>
+2.6.0 :003 > card.touch_in
+ => true
+2.6.0 :004 > card.touch_in
+ => true
+2.6.0 :005 > card.in_journey?
+ => true
+2.6.0 :006 > card.touch_out
+ => false
+2.6.0 :007 > card.in_journey?
+=> false
+2.6.0 :008 > card2 = Oystercard.new
+ => #<Oystercard:0x00007fedfc97edb0 @balance=0, @in_use=false>
+2.6.0 :009 > card2.in_journey?
+ => false
+
+
+Chapter 8 User Story
+
+In order to pay for my journey
+As a customer
+I need to have the minimum amount (£1) for a single journey.
+
+Object  |  message
+
+card    | minimum_amount --> £1
+
+
+
+
+Green
+
+2.6.0 :001 > require './lib/oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007f83c70d4920 @balance=0, @in_use=false>
+2.6.0 :003 > card.top_up(0.5)
+ => 0.5
+2.6.0 :004 > card.touch_in
+Traceback (most recent call last):
+        5: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        2: from (irb):4
+        1: from /Users/yems/Projects/oystercard_challenge/lib/oystercard.rb:27:in `touch_in'
+RuntimeError (Insufficient funds)
+
+Chapter 10 User Story
+
+In order to pay for my journey
+As a customer
+When my journey is complete, I need the correct amount deducted from my card
+
+
+GREEN
+
+2.6.0 :001 > require './lib/oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007f84b7174678 @balance=0, @in_use=false>
+2.6.0 :003 > card.in_journey?
+=> false
+2.6.0 :004 > card.top_up(10)
+=> 10
+2.6.0 :005 > card.in_journey?
+=> false
+2.6.0 :006 > card.touch_in
+=> true
+2.6.0 :007 > card.balance
+=> 10
+2.6.0 :008 > card.in_journey?
+=> true
+2.6.0 :009 > card.touch_out
+=> false
+2.6.0 :010 > card.balance
+=> 9
+
+chapter 11 User Story
+
+In order to pay for my journey
+As a customer
+I need to know where I've travelled from
+
+Object  |  Message
+
+card    | entry_station
+
+Failed Feature test
+
+2.6.0 :001 > require './lib/oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007f91cb8af548 @balance=0, @in_use=false>
+2.6.0 :003 > card.top_up(80)
+ => 80
+2.6.0 :004 > card.touch_in
+ => true
+2.6.0 :005 > card.balance
+ => 80
+2.6.0 :006 > card.entry_station
+Traceback (most recent call last):
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        2: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        1: from (irb):6
+NoMethodError (undefined method `entry_station' for #<Oystercard:0x00007f91cb8af548 @balance=80, @in_use=true>)
+
+Failed Unit test
+
+
+......F....
+
+Failures:
+
+  1) Oystercard#entry_station commits #entry_station to memory
+     Failure/Error:
+         def touch_in
+           fail "Insufficient funds" if insufficient_funds?
+
+           @in_use = true
+           end
+
+ArgumentError:
+ wrong number of arguments (given 1, expected 0)
+# ./lib/oystercard.rb:29:in `touch_in'
+# ./spec/oystercard_spec.rb:60:in `block (3 levels) in <top (required)>'
+
+Finished in 0.01208 seconds (files took 0.11465 seconds to load)
+11 examples, 1 failure
+
+Failed examples:
+
+rspec ./spec/oystercard_spec.rb:59 # Oystercard#entry_station commits #entry_station to memory
+
+Greeb
+
+2.6.0 :001 > require './oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fe2d80b6478 @balance=0, @in_use=false, @entry_station=nil>
+2.6.0 :003 > card.top_up(10)
+ => 10
+2.6.0 :004 > card.touch_in("Aldgate")
+ => "Aldgate"
+2.6.0 :005 > card.in_journey?
+ => true
+2.6.0 :006 > card.touch_out
+ => nil
+2.6.0 :007 > card.in_journey?
+=> false
+2.6.0 :008 > card.entry_station
+=> nil
+
+
+Chapter 12 User Story
+
+In order to know where I have been
+As a customer
+I want to see all my previous trips
+
+RED feature test
+
+2.6.0 :001 > require './oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fc97d8e5be0 @balance=0, @in_use=false, @entry_station=nil>
+=> #<Oystercard:0x00007fc97d8e5be0 @balance=0, @in_use=false, @entry_station=nil>
+2.6.0 :003 > card.top_up(10)
+=> 10
+2.6.0 :004 > card.touch_in("Aldgate")
+=> "Aldgate"
+2.6.0 :005 > card.touch_out
+=> nil
+2.6.0 :006 > card.history
+Traceback (most recent call last):
+       4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+       3: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+       2: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+       1: from (irb):6
+NoMethodError (undefined method `history' for #<Oystercard:0x00007fc97d8e5be0>)
+
+
+
+
+
+oystercard.rb
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+19
+20
+21
+22
+23
+24
+55
+56
+57
+58
+49
+50
+51
+52
+53
+54
+43
+44
+45
+46
+47
+48
+    @balance < 1
+  end
+
+  def touch_in(station)
+    fail "Insufficient funds" if insufficient_funds?
+    @entry_station = station
+    @exit_station = nil
+    @journeys.merge!("entry_station": station)
+  end
+
+  def touch_out(exit_station)
+   deduct(MIN_FARE)
+   @entry_station = nil
+   @exit_station = exit_station
+   @journeys.merge!("exit_station": exit_station)
+  end
+
+  def history
+    raise message if amount + balance > MAX_BALANCE
+
+    @balance += amount
+  end
+
+  def insufficient_funds?
+
+
+end
+
+
+  private
+
+  def deduct(amount)
+    @balance -= amount
+  end
+    @journey_history << @journeys
+  end
+
+  def in_journey?
+    @entry_station != nil
+  end
+
+oystercard.rb
+oystercard_spec.rb
+README.md
+73
+74
+75
+76
+77
+78
+37
+38
+39
+40
+41
+42
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+49
+50
+51
+52
+53
+54
+43
+44
+45
+46
+47
+48
+55
+56
+57
+58
+59
+60
+      expect { card.touch_out(:exit_station) }.to change{card.balance}.by(-Oystercard::MIN_FARE)
+    end
+
+    it "when touched out to not be #in_journey" do
+      card.touch_out(:exit_station)
+      expect(card).not_to be_in_journey
+
+  describe "#deduct" do
+    it "deducts a specified amount" do
+      card.top_up(10)
+      expect{ card.deduct 2 }.to change{ card.balance }.by(-2)
+    end
+      card.touch_in(station)
+      expect(card.entry_station).to eq station
+    end
+  end
+
+  describe "#touch_out" do
+    it "touch out with an oystercard" do
+      expect(card).to respond_to(:touch_out)
+    end
+
+    it "deducts fare amount from oystercard" do
+      card.deduct(Oystercard::MIN_FARE)
+      expect(card).to be_in_journey
+    end
+
+    it "can start journey with at least minimum balance" do
+      card.top_up(0.5)
+      expect{ card.touch_in(station) }.to raise_error "Insufficient funds"
+  end
+
+  describe "#touch_in" do
+    it "when touched in to be #in_journey?" do
+      card.top_up(10)
+      card.touch_in(station)
+    end
+  end
+
+  describe "#entry_station" do
+    it "commits #entry_station to memory" do
+      card.top_up(10)
+
+Green Feature test
+
+2.6.0 :001 > require './oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fc7bd941d58 @balance=0, @in_use=false, @entry_station=nil, @exit_station=nil, @journeys={}, @journey_history=[]>
+2.6.0 :003 > card.top_up(10)
+ => 10
+2.6.0 :004 > card.touch_in("Aldgate")
+ => {:entry_station=>"Aldgate"}
+2.6.0 :005 > card.touch_out("Moorgate")
+ => {:entry_station=>"Aldgate", :exit_station=>"Moorgate"}
+2.6.0 :006 > card.in_journey?
+ => false
+2.6.0 :007 > card.history
+ => [{:entry_station=>"Aldgate", :exit_station=>"Moorgate"}]
