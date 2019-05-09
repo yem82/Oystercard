@@ -197,3 +197,80 @@ GREEN
 => false
 2.6.0 :010 > card.balance
 => 9
+
+chapter 11 User Story
+
+In order to pay for my journey
+As a customer
+I need to know where I've travelled from
+
+Object  |  Message
+
+card    | entry_station
+
+Failed Feature test
+
+2.6.0 :001 > require './lib/oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007f91cb8af548 @balance=0, @in_use=false>
+2.6.0 :003 > card.top_up(80)
+ => 80
+2.6.0 :004 > card.touch_in
+ => true
+2.6.0 :005 > card.balance
+ => 80
+2.6.0 :006 > card.entry_station
+Traceback (most recent call last):
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        2: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        1: from (irb):6
+NoMethodError (undefined method `entry_station' for #<Oystercard:0x00007f91cb8af548 @balance=80, @in_use=true>)
+
+Failed Unit test
+
+
+......F....
+
+Failures:
+
+  1) Oystercard#entry_station commits #entry_station to memory
+     Failure/Error:
+         def touch_in
+           fail "Insufficient funds" if insufficient_funds?
+
+           @in_use = true
+           end
+
+ArgumentError:
+ wrong number of arguments (given 1, expected 0)
+# ./lib/oystercard.rb:29:in `touch_in'
+# ./spec/oystercard_spec.rb:60:in `block (3 levels) in <top (required)>'
+
+Finished in 0.01208 seconds (files took 0.11465 seconds to load)
+11 examples, 1 failure
+
+Failed examples:
+
+rspec ./spec/oystercard_spec.rb:59 # Oystercard#entry_station commits #entry_station to memory
+
+Greeb
+
+2.6.0 :001 > require './oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fe2d80b6478 @balance=0, @in_use=false, @entry_station=nil>
+2.6.0 :003 > card.top_up(10)
+ => 10
+2.6.0 :004 > card.touch_in("Aldgate")
+ => "Aldgate"
+2.6.0 :005 > card.in_journey?
+ => true
+2.6.0 :006 > card.touch_out
+ => nil
+2.6.0 :007 > card.in_journey?
+=> false
+2.6.0 :008 > card.entry_station
+=> nil
