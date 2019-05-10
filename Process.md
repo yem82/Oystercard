@@ -245,7 +245,7 @@ Failed examples:
 
 rspec ./spec/oystercard_spec.rb:59 # Oystercard#entry_station commits #entry_station to memory
 
-Greeb
+Green Feature Test
 
 2.6.0 :001 > require './oystercard'
  => true
@@ -312,3 +312,82 @@ Green Feature test
 => [{:entry_station=>"Aldgate", :exit_station=>"Moorgate"}]
 2.6.0 :009 > card.in_journey?
 => false
+
+Chapter 13 User Story
+
+In order to know how far I have travelled
+As a customer
+I want to know what zone a station is in
+
+Failed Feature Test
+
+
+
+
+
+
+
+Green Feature Test
+
+
+
+
+
+
+
+RED Unit Test
+
+
+
+
+
+
+
+GREEN Unit Test
+
+
+Chapter 14 User Story
+
+In order to be charged correctly
+As a customer
+I need a penalty charge deducted if I fail to touch in or out
+
+Failed Feature Test
+
+2.6.0 :001 > station = Station.new
+Traceback (most recent call last):
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        2: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        1: from (irb):1
+NameError (uninitialized constant Station)
+
+
+Green Feature Test
+
+2.6.0 :003 > require './station'
+ => true
+2.6.0 :004 > station = Station.new
+ => #<Station:0x00007faff5237ad8>
+
+
+RED Unit Test
+
+Failure/Error:
+  describe Station do
+    let(:station) { Station.new }
+    it "creates a new station" do
+      expect(station).to include station
+    end
+  end
+
+NameError:
+  uninitialized constant Station
+
+
+GREEN Unit Test
+
+...............
+
+Finished in 0.02012 seconds (files took 0.14139 seconds to load)
+15 examples, 0 failures

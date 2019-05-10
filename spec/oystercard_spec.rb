@@ -7,7 +7,6 @@ class Oystercard
 end
 
 let(:card) { Oystercard.new }
-let(:each) { :start_journey }
 let(:entry_station){ double :station }
 let(:exit_station){ double :station }
 let(:journeys){{ entry_station: entry_station, exit_station: exit_station }}
@@ -24,7 +23,7 @@ let(:journeys){{ entry_station: entry_station, exit_station: exit_station }}
       expect{ card.top_up 10 }.to change{ card.balance }.by 10
     end
 
-    it "raises an error if topping up violates card limit" do
+    it "raises an error if top up > max balance" do
       max_balance = Oystercard::MAX_BALANCE
       card.top_up max_balance
       message = "Card violation: cannot exceed £#{max_balance}"
