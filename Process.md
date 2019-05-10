@@ -313,44 +313,12 @@ Green Feature test
 2.6.0 :009 > card.in_journey?
 => false
 
+
 Chapter 13 User Story
 
 In order to know how far I have travelled
 As a customer
 I want to know what zone a station is in
-
-Failed Feature Test
-
-
-
-
-
-
-
-Green Feature Test
-
-
-
-
-
-
-
-RED Unit Test
-
-
-
-
-
-
-
-GREEN Unit Test
-
-
-Chapter 14 User Story
-
-In order to be charged correctly
-As a customer
-I need a penalty charge deducted if I fail to touch in or out
 
 Failed Feature Test
 
@@ -436,3 +404,144 @@ Finished in 0.02012 seconds (files took 0.14139 seconds to load)
 
 Finished in 0.01623 seconds (files took 0.13682 seconds to load)
 17 examples, 0 failures
+
+Chapter 14 User Story
+
+In order to be charged correctly
+As a customer
+I need a penalty charge deducted if I fail to touch in or out
+
+Create Journey class as journey becoming repetitive in Oystercard class
+
+Feature test for touch_out with no touch_in
+2.6.0 :001 > require './oystercard'
+ => true
+2.6.0 :002 > card = Oystercard.new
+ => #<Oystercard:0x00007fa6161d1b90 @balance=0, @journeys={}>
+2.6.0 :003 > card.top_up(5)
+ => 5
+2.6.0 :004 > card.touch_out("Aldgate")
+ => "Aldgate"
+2.6.0 :005 > card.history
+ => [{:entry_station=>nil, :exit_station=>"Aldgate"}]
+2.6.0 :006 > exit
+
+Failed Feature Test
+
+1) 2.6.0 :002 > journey = Journey.new
+Traceback (most recent call last):
+        5: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        2: from (irb):2
+        1: from (irb):2:in `rescue in irb_binding'
+NameError (uninitialized constant Journey)
+
+2) 2.6.0 :001 > require './journey'
+ => true
+2.6.0 :002 > journey = Journey.new
+ => #<Journey:0x00007fd8481efb40>
+2.6.0 :003 > journey.complete?
+Traceback (most recent call last):
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        2: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        1: from (irb):3
+NoMethodError (undefined method `complete?' for #<Journey:0x00007fd8481efb40>)
+
+3) 2.6.0 :001 > require './journey'
+ => true
+2.6.0 :002 > journey = Journey.new
+ => #<Journey:0x00007f8fba02bf88>
+2.6.0 :003 > journey.fare
+Traceback (most recent call last):
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        2: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        1: from (irb):3
+NoMethodError (undefined method `fare' for #<Journey:0x00007f8fba02bf88>)
+
+Green Feature Test
+
+1) Yems-Macbook-Pro:lib yems$ irb
+2.6.0 :001 > require './journey'
+ => true
+2.6.0 :002 > journey = Journey.new
+ => #<Journey:0x00007f85ff8c86b0>
+
+2) 2.6.0 :001 > require './journey'
+ => true
+2.6.0 :002 > journey = Journey.new
+ => #<Journey:0x00007ffcb3084550>
+2.6.0 :003 > journey.complete?
+ => true
+
+ 3) 2.6.0 :001 > require './journey'
+ => true
+2.6.0 :002 > journey = Journey.new
+ => #<Journey:0x00007f88531302f8>
+2.6.0 :003 > journey.fare
+ => 6
+
+
+RED Unit Test
+
+1) Failure/Error:
+  describe Journey do
+
+  end
+
+NameError:
+  uninitialized constant Journey
+# ./spec/journey_spec.rb:3:in `<top (required)>'
+
+
+Finished in 0.00022 seconds (files took 0.23096 seconds to load)
+0 examples, 0 failures, 1 error occurred outside of examples
+
+2)   1) Journey completed journey
+     Failure/Error: expect(subject).to be_complete
+       expected #<Journey:0x00007fa9c8370838> to respond to `complete?`
+     # ./spec/journey_spec.rb:6:in `block (2 levels) in <top (required)>'
+
+Finished in 0.04429 seconds (files took 0.19626 seconds to load)
+18 examples, 1 failure
+
+Failed examples:
+
+rspec ./spec/journey_spec.rb:5 # Journey completed journey
+
+3)     Failure/Error: expect(subject.fare).to eq Journey::PENALTY_FARE
+
+     NoMethodError:
+       undefined method `fare' for #<Journey:0x00007fc4ea19c560>
+     # ./spec/journey_spec.rb:12:in `block (3 levels) in <top (required)>'
+
+Finished in 0.02235 seconds (files took 0.1966 seconds to load)
+19 examples, 1 failure
+
+Failed examples:
+
+rspec ./spec/journey_spec.rb:11 # Journey#fare has a pentalty fare by default
+
+
+
+GREEN Unit Test
+
+1) Yems-Macbook-Pro:oystercard_challenge yems$ rspec
+.................
+
+Finished in 0.02136 seconds (files took 0.18689 seconds to load)
+17 examples, 0 failures
+
+2) Yems-Macbook-Pro:oystercard_challenge yems$ rspec
+..................
+
+Finished in 0.0165 seconds (files took 0.11561 seconds to load)
+18 examples, 0 failures
+
+3) Yems-Macbook-Pro:oystercard_challenge yems$ rspec
+...................
+
+Finished in 0.01461 seconds (files took 0.11564 seconds to load)
+19 examples, 0 failures
