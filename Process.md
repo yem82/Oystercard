@@ -354,7 +354,7 @@ I need a penalty charge deducted if I fail to touch in or out
 
 Failed Feature Test
 
-2.6.0 :001 > station = Station.new
+1) 2.6.0 :001 > station = Station.new
 Traceback (most recent call last):
         4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
         3: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
@@ -362,16 +362,38 @@ Traceback (most recent call last):
         1: from (irb):1
 NameError (uninitialized constant Station)
 
+2) => #<Station:0x00007fb7f09c94d8>
+2.6.0 :003 > station.name
+Traceback (most recent call last):
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        2: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        1: from (irb):3
+NoMethodError (undefined method `name' for #<Station:0x00007fb7f09c94d8>)
+2.6.0 :004 > station.zone
+Traceback (most recent call last):
+        5: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `<main>'
+        4: from /Users/yems/.rvm/rubies/ruby-2.6.0/bin/irb:23:in `load'
+        3: from /Users/yems/.rvm/rubies/ruby-2.6.0/lib/ruby/gems/2.6.0/gems/irb-1.0.0/exe/irb:11:in `<top (required)>'
+        2: from (irb):4
 
-Green Feature Test
+
+**Green Feature Test**
 
 2.6.0 :003 > require './station'
  => true
 2.6.0 :004 > station = Station.new
  => #<Station:0x00007faff5237ad8>
 
+2)
+2.6.0 :004 > station = Station.new("Aldgate", 1)
+ => #<Station:0x00007f8b379ebbb8 @name="Aldgate", @zone=1>
+2.6.0 :005 > station.name
+ => "Aldgate"
+2.6.0 :006 > station.zone
+ => 1
 
-RED Unit Test
+**RED Unit Test**
 
 Failure/Error:
   describe Station do
@@ -384,6 +406,24 @@ Failure/Error:
 NameError:
   uninitialized constant Station
 
+2) Failures:
+
+  1) Station station can have a name
+     Failure/Error: expect(station.name).to eq name
+
+     NoMethodError:
+       undefined method `name' for #<Station:0x00007fae76819f08>
+     # ./spec/station_spec.rb:11:in `block (2 levels) in <top (required)>'
+
+  2) Station station can have a zone
+     Failure/Error: expect(station.zone).to eq zone
+
+     NoMethodError:
+            undefined method `zone' for #<Station:0x00007fae76818ec8>
+          # ./spec/station_spec.rb:15:in `block (2 levels) in <top (required)>'
+
+     Finished in 0.01957 seconds (files took 0.19123 seconds to load)
+     17 examples, 2 failures
 
 GREEN Unit Test
 
@@ -391,3 +431,8 @@ GREEN Unit Test
 
 Finished in 0.02012 seconds (files took 0.14139 seconds to load)
 15 examples, 0 failures
+
+2) .................
+
+Finished in 0.01623 seconds (files took 0.13682 seconds to load)
+17 examples, 0 failures
