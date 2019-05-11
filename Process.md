@@ -492,6 +492,15 @@ Green Feature Test
  2.6.0 :004 > journey.finish("Moorgate")
   => #<Journey:0x00007fceb10434b8 @journey={:entry_station=>nil, :exit_station=>nil}>
 
+  5) 2.6.0 :001 > require './oystercard'
+  => true
+ 2.6.0 :002 > card = Oystercard.new
+  => #<Oystercard:0x00007fb2ee0c7850 @balance=0, @journey=#<Journey:0x00007fb2ee0c7828 @journey={:entry_station=>nil, :exit_station=>nil}>>
+ 2.6.0 :003 > card.journey.start("Aldgate")
+  => "Aldgate"
+ 2.6.0 :004 > card.journey.finish("Moorgate")
+  => #<Journey:0x00007fb2ee0c7828 @journey={:entry_station=>"Aldgate", :exit_station=>"Moorgate"}>
+
 RED Unit Test
 
 1) Failure/Error:
