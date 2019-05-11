@@ -483,6 +483,14 @@ Green Feature Test
 2.6.0 :003 > journey.fare
  => 6
 
+ 4) 2.6.0 :001 > require './journey'
+  => true
+ 2.6.0 :002 > journey = Journey.new
+  => #<Journey:0x00007fceb10434b8 @journey={:entry_station=>nil, :exit_station=>nil}>
+ 2.6.0 :003 > journey.fare
+  => 6
+ 2.6.0 :004 > journey.finish("Moorgate")
+  => #<Journey:0x00007fceb10434b8 @journey={:entry_station=>nil, :exit_station=>nil}>
 
 RED Unit Test
 
@@ -545,3 +553,6 @@ Finished in 0.0165 seconds (files took 0.11561 seconds to load)
 
 Finished in 0.01461 seconds (files took 0.11564 seconds to load)
 19 examples, 0 failures
+
+4) Finished in 0.02725 seconds (files took 0.19135 seconds to load)
+17 examples, 0 failures

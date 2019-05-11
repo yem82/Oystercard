@@ -9,7 +9,7 @@ end
 let(:card) { Oystercard.new }
 let(:entry_station){ double :station }
 let(:exit_station){ double :station }
-let(:journeys){{ entry_station: entry_station, exit_station: exit_station }}
+let(:journey){{ entry_station: entry_station, exit_station: exit_station }}
 
   describe "initialization" do
 
@@ -84,15 +84,15 @@ let(:journeys){{ entry_station: entry_station, exit_station: exit_station }}
       expect(card.exit_station).to eq exit_station
     end
 
-    it "empty history when no journey taken" do
-      expect(card.history).to eq [{}]
-    end
+    # it "empty history when no journey taken" do
+    #   expect(card.history).to eq [{}]
+    # end
 
     it "stores journeys" do
       card.top_up(10)
       card.touch_in(entry_station)
       card.touch_out(exit_station)
-      expect(card.history).to include journeys
+      expect(card.history).to include journey
     end
   end
 
