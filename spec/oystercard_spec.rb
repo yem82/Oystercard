@@ -84,10 +84,6 @@ let(:journey){{ entry_station: entry_station, exit_station: exit_station }}
       expect(card.exit_station).to eq exit_station
     end
 
-    # it "empty history when no journey taken" do
-    #   expect(card.history).to eq [{}]
-    # end
-
     it "stores journeys" do
       card.top_up(10)
       card.touch_in(entry_station)

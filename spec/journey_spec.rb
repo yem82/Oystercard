@@ -8,27 +8,27 @@ describe Journey do
   it "has an entry station" do
    journey.entry_station = station
    expect(journey.entry_station).to eq station
- end
+  end
 
   it "has a pentalty fare by default" do
    expect(journey.fare).to eq Journey::PENALTY_FARE
- end
+  end
 
   it 'returns a penalty fare if no entry station given' do
    !journey.complete?
    expect(journey.fare).to eq  Journey::PENALTY_FARE
- end
+  end
 
   it 'completed journey' do
-    expect(subject).to_not be_complete
+    expect(journey).to_not be_complete
   end
 
   it 'returns itself when exiting a journey' do
-    expect(subject.finish(station)).to eq subject
+    expect(journey.finish(station)).to eq journey
   end
 
   it "knows if journey is complete" do
     journey.journey = { entry_station: station, exit_station: station2 }
     expect(journey).to be_complete
-  end	  
+  end
 end
